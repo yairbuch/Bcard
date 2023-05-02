@@ -11,14 +11,11 @@ type Props = {
   onDelete: (id: string) => void;
   cardId: string;
   onLike: (id: string) => void;
-  onEdit: (id: string) => void;
 };
-const CardActionBar: React.FC<Props> = ({
-  onDelete,
-  cardId,
-  onLike,
-  onEdit,
-}) => {
+const CardActionBar: React.FC<Props> = ({ onDelete, cardId, onLike }) => {
+  const handleEditCard = () =>
+    console.log(`you moved to edit card no: ${cardId} component`);
+
   return (
     <>
       <CardActions
@@ -30,7 +27,7 @@ const CardActionBar: React.FC<Props> = ({
             <DeleteIcon />
           </IconButton>
 
-          <IconButton onClick={() => onEdit(cardId)} aria-label="edit card">
+          <IconButton onClick={handleEditCard} aria-label="edit card">
             <EditIcon />
           </IconButton>
         </Box>

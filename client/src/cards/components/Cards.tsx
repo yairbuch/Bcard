@@ -14,9 +14,6 @@ const Cards: React.FC<Props> = ({ cards }) => {
   const handleCardLiked = (id: string) =>
     console.log(`you liked card no. ${id}`);
 
-  const handleCardEdit = (id: string) =>
-    console.log(`you edited card no. ${id}`);
-
   if (!cards.length)
     return (
       <Typography>
@@ -32,7 +29,6 @@ const Cards: React.FC<Props> = ({ cards }) => {
             onLike={handleCardLiked}
             cardId={card._id}
             onDelete={handleCardDelete}
-            onEdit={handleCardEdit}
             card={card}
           />
         </Grid>

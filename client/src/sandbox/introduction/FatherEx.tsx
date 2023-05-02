@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ChildEx from "./ChildEx";
 
 const FatherEx = () => {
@@ -8,11 +8,17 @@ const FatherEx = () => {
     height: "300px",
     margin: "auto",
   };
-  const newColor = (color: string) => (design.backgroundColor = color);
+  const [backgroundColor, newColor] = useState("green");
+
   return (
     <>
       <div style={design} className="center">
-        <ChildEx changeColor={newColor} color={"blue"} />
+        <ChildEx
+          changeColor={() =>
+            newColor((design.backgroundColor = backgroundColor))
+          }
+          backgroundColor={"blue"}
+        />
       </div>
     </>
   );
