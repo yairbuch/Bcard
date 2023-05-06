@@ -5,7 +5,7 @@ import ROUTES from "../../../../routes/routesModel";
 
 const Logo = () => {
   return (
-    <NavBarLink to={ROUTES.ROOT}>
+    <NavBarLink to={ROUTES.CARDS}>
     <Typography
       variant="h4"
       sx={{

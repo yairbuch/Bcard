@@ -6,15 +6,15 @@ import { Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CallIcon from "@mui/icons-material/Call";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "../../../routes/routesModel";
 
 type Props = {
   onDelete: (id: string) => void;
   cardId: string;
-  onLike: (id: string) => void;
 };
-const CardActionBar: React.FC<Props> = ({ onDelete, cardId, onLike }) => {
-  const handleEditCard = () =>
-    console.log(`you moved to edit card no: ${cardId} component`);
+const CardActionBar: React.FC<Props> = ({ onDelete, cardId }) => {
+   const navigate= useNavigate()
 
   return (
     <>
@@ -27,7 +27,7 @@ const CardActionBar: React.FC<Props> = ({ onDelete, cardId, onLike }) => {
             <DeleteIcon />
           </IconButton>
 
-          <IconButton onClick={handleEditCard} aria-label="edit card">
+          <IconButton onClick={()=>navigate(`${ROUTES.CARD_EDIT}/${cardId}`)} aria-label="edit card">
             <EditIcon />
           </IconButton>
         </Box>
@@ -36,7 +36,7 @@ const CardActionBar: React.FC<Props> = ({ onDelete, cardId, onLike }) => {
           <IconButton aria-label="call business">
             <CallIcon />
           </IconButton>
-          <IconButton onClick={() => onLike(cardId)} aria-label="add to fav">
+          <IconButton >
             <FavoriteIcon />
           </IconButton>
         </Box>

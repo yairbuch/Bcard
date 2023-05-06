@@ -1,11 +1,15 @@
-import React from 'react'
+// rafce
+import React from "react";
+import Babel from "../introduction/Babel";
 
 const Template = () => {
   return (
-    <div>
-       <h1>Welcome</h1> 
-        </div>
-  )
-}
+    <>
+      <h1>Template</h1>
+      <p>piii ani lo maain!!!</p>
+      <Babel />
+    </>
+  );
+};
 
-export default Template
+export default Template;

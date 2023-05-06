@@ -1,18 +1,16 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
-// import CardInterface from "./../interfaces/CardInterface";
 import CardInterface from "./../interfaces-20230423T085937Z-001/interfaces/CardInterface";
 import Card from "./card/Card";
 import Grid from "@mui/material/Grid";
 
-type Props = { cards: CardInterface[] };
+type Props = {
+  cards: CardInterface[];
+};
 
 const Cards: React.FC<Props> = ({ cards }) => {
-  const handleCardDelete = (id: string) =>
-    console.log(`you deleted card no. ${id}`);
-
-  const handleCardLiked = (id: string) =>
-    console.log(`you liked card no. ${id}`);
+  const handleDelete = (id: string) =>
+    console.log(`You clicked card no: ${id}`);
 
   if (!cards.length)
     return (
@@ -25,12 +23,7 @@ const Cards: React.FC<Props> = ({ cards }) => {
     <Grid container spacing={2} pb={2}>
       {cards.map((card: CardInterface) => (
         <Grid item key={card._id} xs={12} sm={6} md={4} lg={3}>
-          <Card
-            onLike={handleCardLiked}
-            cardId={card._id}
-            onDelete={handleCardDelete}
-            card={card}
-          />
+          <Card onDelete={handleDelete} card={card} />
         </Grid>
       ))}
     </Grid>
@@ -38,3 +31,4 @@ const Cards: React.FC<Props> = ({ cards }) => {
 };
 
 export default Cards;
+

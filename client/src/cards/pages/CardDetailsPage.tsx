@@ -1,11 +1,13 @@
-import { Container } from "@mui/system";
 import React from "react";
-import PageHeader from "../../components/PageHeader";
-import Cards from "../components/Cards";
-import CardInterface from "./../interfaces-20230423T085937Z-001/interfaces/CardInterface";
+import Container from "@mui/material/Container";
+import PageHeader from "./../../components/PageHeader";
+import { useParams } from "react-router-dom";
+import CardInterface from "../interfaces-20230423T085937Z-001/interfaces/CardInterface";
+import Card from "../components/card/Card";
 
-const CardsPage = () => {
-  let cards: CardInterface[] = [
+const CardDetailsPage = () => {
+  const { cardId } = useParams();
+  const cards: CardInterface[] = [
     {
       _id: "abcd1",
       title: "One",
@@ -82,17 +84,23 @@ const CardsPage = () => {
       createdAt: new Date(),
     },
   ];
+
+  const card = cards.find((card: CardInterface) => card._id === cardId);
+
+  if (!card) return <p>No card to display...</p>;
+  // const card =
   return (
-    <>
     <Container>
       <PageHeader
-        title=" Cards Page"
-        subtitle="Here you can find all types of business cards"
+        title="Business Details"
+        subtitle="Here you can see details of the business"
       />
-      <Cards cards={cards} />
-      </Container>
-    </>
+      <div>
+        Details of card: {cardId}
+        <Card card={card} onDelete={console.log} />
+      </div>
+    </Container>
   );
 };
 
-export default CardsPage;
+export default CardDetailsPage;

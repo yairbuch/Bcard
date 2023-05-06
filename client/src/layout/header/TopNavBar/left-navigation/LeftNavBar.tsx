@@ -18,15 +18,18 @@ const LeftNavBar = () => {
           <Typography>About</Typography>
         </Button> */}
         <NavItem label="About" to={ROUTES.ABOUT}/>
-        <Button color="inherit">
+        {/* <Button color="inherit">
           <Typography>My Cards</Typography>
-        </Button>
-        <Button color="inherit">
+        </Button> */}
+        <NavItem label="My Cards" to={ROUTES.MY_CARDS}/>
+        {/* <Button color="inherit">
           <Typography>Fav Cards</Typography>
-        </Button>
-        <Button color="inherit">
+        </Button> */}
+        <NavItem label="Fav Cards" to={ROUTES.FAV_CARDS}/>
+        {/* <Button color="inherit">
           <Typography>Sandbox</Typography>
-        </Button>
+        </Button> */}
+        <NavItem label="Sandbox" to={ROUTES.SANDBOX}/>
       </Box>
     </Box>
   );
