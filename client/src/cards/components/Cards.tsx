@@ -20,7 +20,7 @@ const Cards: React.FC<Props> = ({ cards }) => {
     );
 
   return (
-    <Grid container spacing={2} pb={2}>
+    <Grid container spacing={2} pb={2} justifyContent={'center'}>
       {cards.map((card: CardInterface) => (
         <Grid item key={card._id} xs={12} sm={6} md={4} lg={3}>
           <Card onDelete={handleDelete} card={card} />

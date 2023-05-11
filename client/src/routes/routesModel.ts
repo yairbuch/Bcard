@@ -25,6 +25,9 @@ export const SANDBOX_ROUTES = {
   PROPS_STRING_MENU:'props-string menu',
   PROPS_TWO_KEYS_MENU:'props-two keys menu',
   USE_STATE_MENU:'use-state-menu',
+  LYFE_CYCLE_MENU:'lyfe-cycle-menu',
+  CUSTOM_MENU:'custom-menu',
+  CONTEXT_MENU:'context-menu',
   TEMPLATE: "template",
   LOGIC: "logic",
   STYLES: "styles",
@@ -60,6 +63,13 @@ export const SANDBOX_ROUTES = {
   USE_STATE_COMPLEX_OBJECTS:'use-state with complex objects',
   USE_STATE_WITH_FUNCTIONS:'use-state with functions',
   USE_STATE_WITH_OBJECTS:'use-state with objects',
+  LYFECYCLE_EX:'lyfe-cycle-ex',
+  CUSTOM:'custum',
+  CUSTOM_COUNTER:'counter',
+  CUSTOM_NAME:'name',
+  LYFECYCLE_EX2:'lyfe-cycle-ex2',
+  CUSTOM_NAME_EX2:'custom-name-ex2',
+  SNACK_EXAMPLE:"snack-example"
 };
 
 export default ROUTES;

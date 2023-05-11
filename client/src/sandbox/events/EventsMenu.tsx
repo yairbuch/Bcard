@@ -18,6 +18,7 @@ const EventsMenu = () => {
           <NavItem label="onclick-ts" to={SANDBOX_ROUTES.ONCLICK_TS} color="black" />
           <NavItem label="raising-event-js" to={SANDBOX_ROUTES.RAISING_EVENTS_JS} color="black" />
           <NavItem label="raising-event-ts" to={SANDBOX_ROUTES.RAISING_EVENTS_TS} color="black" />
+          <NavItem label="custom name" to={SANDBOX_ROUTES.CUSTOM_NAME} color="black" />
         </Toolbar>
       </AppBar>
 

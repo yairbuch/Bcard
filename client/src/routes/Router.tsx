@@ -55,6 +55,14 @@ import UseStateWithComplexObject from "../sandbox/use-state/UseStateWithComplexO
 import UseStateWithFunction from "../sandbox/use-state/UseStateWithFunction";
 import UseStateWithObject from "../sandbox/use-state/UseStateWithObject";
 import CardEditPage from "../cards/pages/CardEditPage";
+import LyfecyclehookEx from "../sandbox/events/LyfecyclehookEx";
+import CustomName from "../sandbox/events/CustomName";
+import LyfeCycleMenu from "../sandbox/lyfecycle/LyfeCycleMenu";
+import ExLyfeCycle from "../sandbox/lyfecycle/ExLyfeCycle";
+import CustomHookMenu from "../sandbox/customhooks/CustomHookMenu";
+import CustomNameEx2 from "../sandbox/customhooks/CustomNameEx2";
+import ContextMenu from "../sandbox/context/ContextMenu";
+import SnackExample from "../sandbox/context/SnackExample";
 
 const Router = () => {
   return (
@@ -87,6 +95,7 @@ const Router = () => {
           <Route path={SANDBOX_ROUTES.ONCLICK_TS} element={<OnClick/>} />
           <Route path={SANDBOX_ROUTES.RAISING_EVENTS_JS} element={<RaisingEventsJ/>} />
           <Route path={SANDBOX_ROUTES.RAISING_EVENTS_TS} element={<RaisingEvents/>} />
+          <Route path={SANDBOX_ROUTES.CUSTOM_NAME} element={<CustomName/>}/>
       </Route>
       <Route path={SANDBOX_ROUTES.MUI_SANDBOX} element={<MuiSandbox/>}>
         <Route path={SANDBOX_ROUTES.DATA_MENU} element={<DataMenu/>}>
@@ -129,6 +138,17 @@ const Router = () => {
              <Route path={SANDBOX_ROUTES.USE_STATE_COMPLEX_OBJECTS} element={<UseStateWithComplexObject/>} />
               <Route path={SANDBOX_ROUTES.USE_STATE_WITH_FUNCTIONS} element={<UseStateWithFunction/>} />
                <Route path={SANDBOX_ROUTES.USE_STATE_WITH_OBJECTS} element={<UseStateWithObject/>} />
+        </Route>
+        <Route path={SANDBOX_ROUTES.LYFE_CYCLE_MENU} element={<LyfeCycleMenu/>}>
+          <Route path={SANDBOX_ROUTES.LYFECYCLE_EX} element={<LyfecyclehookEx/>}/>
+          <Route path={SANDBOX_ROUTES.LYFECYCLE_EX2} element={<ExLyfeCycle/>}/>
+
+        </Route>
+        <Route path={SANDBOX_ROUTES.CUSTOM_MENU} element={<CustomHookMenu/>}>
+          <Route path={SANDBOX_ROUTES.CUSTOM_NAME_EX2} element={<CustomNameEx2/>}/>
+        </Route>
+        <Route path={SANDBOX_ROUTES.CONTEXT_MENU} element={<ContextMenu/>}>
+          <Route path={SANDBOX_ROUTES.SNACK_EXAMPLE} element={<SnackExample/>}/>
         </Route>
       </Route>
       <Route path="*" element={<ErrorPage />} />
