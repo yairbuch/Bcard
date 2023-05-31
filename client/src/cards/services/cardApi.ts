@@ -1,5 +1,6 @@
-import axios, { isAxiosError } from "axios";
-import CardInterface from "../interfaces-20230423T085937Z-001/interfaces/CardInterface";
+import axios from "axios";
+import CardInterface from "../models/interfaces/CardInterface";
+import { NormalizedEditCard } from "../models/types/cardTypes";
 
 const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8181";
 
@@ -9,16 +10,7 @@ export const getCards = async () => {
     return Promise.resolve(data);
   } catch (error) {
     if (axios.isAxiosError(error)) return Promise.reject(error.message);
-    return Promise.reject("An unexpected error occurred!");
-  }
-};
-
-export const getCard = async (cardid: string) => {
-  try {
-    const { data } = await axios.get<CardInterface[]>(`${apiUrl}/cards/:id`);
-    return Promise.resolve(data);
-  } catch (error) {
-    if (axios.isAxiosError(error)) return Promise.reject(error.message);
+    console.error(error);
     return Promise.reject("An unexpected error occurred!");
   }
 };
@@ -35,11 +27,10 @@ export const getMyCards = async () => {
   }
 };
 
-export const createCard = async (card: CardInterface[]) => {
+export const getCard = async (cardId: string) => {
   try {
-    const { data } = await axios.post<CardInterface[]>(
-      `${apiUrl}/cards/`,
-      card
+    const { data } = await axios.get<CardInterface>(
+      `${apiUrl}/cards/${cardId}`
     );
     return Promise.resolve(data);
   } catch (error) {
@@ -48,35 +39,45 @@ export const createCard = async (card: CardInterface[]) => {
   }
 };
 
-export const editCard = async (card: CardInterface[]) => {
+export const createCard = async (normalizedCard: object) => {
   try {
-    const { data } = await axios.put<CardInterface[]>(
-      `${apiUrl}/cards/:id`,
-      card
-    );
-    return Promise.resolve(data);
+    const { data } = await axios.post(`${apiUrl}/cards`, normalizedCard);
+    return data;
   } catch (error) {
     if (axios.isAxiosError(error)) return Promise.reject(error.message);
-    return Promise.reject("An unexpected error occurred!");
-  }
-};
-
-export const changeLikeStatus = async (cardId: string) => {
-  try {
-    const { data } = await axios.patch(`${apiUrl}/cards/:id`);
-    return Promise.resolve(data);
-  } catch (error) {
-    if (axios.isAxiosError(error)) return Promise.reject(error.message);
-    return Promise.reject("An unexpected error occurred!");
   }
 };
 
 export const deleteCard = async (cardId: string) => {
   try {
-    const { data } = await axios.delete(`${apiUrl}/cards/:id`);
-    return Promise.resolve(data);
+    const { data } = await axios.delete(`${apiUrl}/cards/${cardId}`);
+    return data;
   } catch (error) {
     if (axios.isAxiosError(error)) return Promise.reject(error.message);
-    return Promise.reject("An unexpected error occurred!");
+  }
+};
+
+export const editCard = async (normalizedCard: NormalizedEditCard) => {
+  try {
+    const cardToServer = { ...normalizedCard };
+    delete cardToServer._id;
+    const { data } = await axios.put<CardInterface>(
+      `${apiUrl}/cards/${normalizedCard._id}`,
+      cardToServer
+    );
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) return Promise.reject(error.message);
+  }
+};
+
+export const changeLikeStatus = async (cardId: string) => {
+  try {
+    const { data } = await axios.patch<CardInterface>(
+      `${apiUrl}/cards/${cardId}`
+    );
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) return Promise.reject(error.message);
   }
 };

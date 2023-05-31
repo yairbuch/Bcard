@@ -1,5 +1,4 @@
-import { useState } from "react";
-import CardInterface from "../interfaces-20230423T085937Z-001/interfaces/CardInterface";
+import { useCallback, useState, useMemo, useEffect } from "react";
 import {
   changeLikeStatus,
   createCard,
@@ -9,21 +8,45 @@ import {
   getCards,
   getMyCards,
 } from "../services/cardApi";
+import useAxios from "../../hooks/useAxiosInterceptors";
+// import normalizeCard from "./../helpers/normalization/normalizeCard";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useSnack } from "../../providers/SnackbarProvider";
+import ROUTES from "../../routes/routesModel";
+import CardInterface from "../models/interfaces/CardInterface";
+import normalizeCard from "../helpers/normalizations/normalizeCard";
+import {
+  CardFromClientType,
+  CardMapToModelType,
+} from "../models/types/cardTypes";
+import normalizeEditCard from "../helpers/normalizations/normalizeEditCard";
+import { useUser } from "../../users/providers/UserProvider";
 
-type ErrorType = null | string;
 type CardsType = null | CardInterface[];
+type CardType = null | CardInterface;
+type ErrorType = null | string;
 
 const useCards = () => {
   const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState<ErrorType>(null);
+  const [error, setError] = useState<null | string>(null);
   const [cards, setCards] = useState<CardsType>(null);
-  const [card, setCard] = useState<CardsType>(null);
+  const [card, setCard] = useState<CardType>(null);
+  const [query, setQuery] = useState("");
+  const [filteredCards, setFilter] = useState<CardsType>(null);
+  const [searchParams] = useSearchParams();
+
+  useAxios();
+
+  const navigate = useNavigate();
+  const snack = useSnack();
+  const { user } = useUser();
+  // const { cardId } = useParams();
 
   const requestStatus = (
     loading: boolean,
     errorMessage: ErrorType,
     cards: CardsType,
-    card: CardsType = null
+    card: CardType = null
   ) => {
     setLoading(loading);
     setError(errorMessage);
@@ -31,19 +54,44 @@ const useCards = () => {
     setCard(card);
   };
 
-  const handleGetCards = async () => {
+  useEffect(() => {
+    setQuery(searchParams.get("q") ?? "");
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (cards) {
+      setFilter(
+        cards.filter(
+          (card) =>
+            card.title.includes(query) || String(card.bizNumber).includes(query)
+        )
+      );
+    }
+  }, [cards, query]);
+
+  const handleGetCards = useCallback(async () => {
     try {
       setLoading(true);
       const cards = await getCards();
       requestStatus(false, null, cards);
     } catch (error) {
-      if (typeof error === "string") requestStatus(false, error, null);
+      if (typeof error === "string") return requestStatus(false, error, null);
     }
-  };
+  }, []);
+
+  const handleGetMyCards = useCallback(async () => {
+    try {
+      setLoading(true);
+      const cards = await getMyCards();
+      requestStatus(false, null, cards);
+    } catch (error) {
+      if (typeof error === "string") return requestStatus(false, error, null);
+    }
+  }, []);
 
   const handleGetCard = async (cardId: string) => {
     try {
-      setLoading(false);
+      setLoading(true);
       const card = await getCard(cardId);
       requestStatus(false, null, null, card);
       return card;
@@ -52,68 +100,85 @@ const useCards = () => {
     }
   };
 
-  const handleGetMyCards = async () => {
-    try {
-      setLoading(false);
-      const cards = await getMyCards();
-      requestStatus(false, null, cards);
-    } catch (error) {
-      if (typeof error === "string") requestStatus(false, error, null);
-    }
-  };
+  const handleCreateCard = useCallback(
+    async (cardFromClient: CardFromClientType) => {
+      try {
+        setLoading(true);
+        const normalizedCard = normalizeCard(cardFromClient);
+        const card = await createCard(normalizedCard);
+        requestStatus(false, null, null, card);
+        snack("success", "A new business card has been created");
+        navigate(ROUTES.MY_CARDS);
+      } catch (error) {
+        if (typeof error === "string") return requestStatus(false, error, null);
+      }
+    },
+    []
+  );
 
-  const handleCreateCard = async (cardFromClient: CardInterface[]) => {
+  const handleDeleteCard = useCallback(async (cardId: string) => {
     try {
-      setLoading(false);
-      const card = await createCard(cardFromClient);
-      requestStatus(false, null, null, card);
+      setLoading(true);
+      await deleteCard(cardId);
+      snack("success", "The business card has been successfully deleted");
     } catch (error) {
-      if (typeof error === "string") requestStatus(false, error, null);
+      if (typeof error === "string") return requestStatus(false, error, null);
     }
-  };
+  }, []);
 
-  const handleUpdateCard = async (cardFromClient: CardInterface[]) => {
-    try {
-      setLoading(false);
-      const card = await editCard(cardFromClient);
-      requestStatus(false, null, null, card);
-    } catch (error) {
-      if (typeof error === "string") requestStatus(false, error, null);
-    }
-  };
+  const handleUpdateCard = useCallback(
+    async (cardFromClient: CardMapToModelType) => {
+      try {
+        setLoading(true);
+        const normalizedCard = normalizeEditCard(cardFromClient);
+        const cardFomServer = await editCard(normalizedCard);
+        requestStatus(false, null, null, cardFomServer);
+        snack("success", "The business card has been successfully updated");
+        navigate(ROUTES.MY_CARDS);
+      } catch (error) {
+        if (typeof error === "string") return requestStatus(false, error, null);
+      }
+    },
+    []
+  );
 
-  const handleDeleteCard = async (cardId: string) => {
+  const handleLikeCard = useCallback(async (cardId: string) => {
     try {
-      setLoading(false);
-      deleteCard(cardId);
-    } catch (error) {
-      if (typeof error === "string") requestStatus(false, error, null);
-    }
-  };
-
-  const handleLikeCard = async (cardId: string) => {
-    try {
-      setLoading(false);
       const card = await changeLikeStatus(cardId);
-      const cards = await getCards();
       requestStatus(false, null, cards, card);
     } catch (error) {
+      if (typeof error === "string") return requestStatus(false, error, null);
+    }
+  }, []);
+
+  const handleGetFavCards = useCallback(async () => {
+    try {
+      setLoading(true);
+      // const cards: CardInterface[] = await handleGetCards();
+      const cards = await getCards();
+      const FavCards: CardInterface[] = cards.filter(
+        (card: CardInterface) => !!card.likes.find((id) => id === user?._id)
+      );
+      requestStatus(false, null, FavCards);
+    } catch (error) {
       if (typeof error === "string") requestStatus(false, error, null);
     }
-  };
+  }, [user]);
+
+  const value = useMemo(() => {
+    return { isLoading, cards, card, error, filteredCards };
+  }, [isLoading, cards, card, error, filteredCards]);
 
   return {
-    isLoading,
-    error,
-    cards,
-    card,
+    value,
     handleGetCards,
-    handleGetCard,
     handleGetMyCards,
+    handleGetCard,
     handleCreateCard,
-    handleUpdateCard,
     handleDeleteCard,
+    handleUpdateCard,
     handleLikeCard,
+    handleGetFavCards,
   };
 };
 

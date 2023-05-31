@@ -1,106 +1,101 @@
-import React from "react";
+import React, { useEffect, CSSProperties } from "react";
 import Container from "@mui/material/Container";
 import PageHeader from "./../../components/PageHeader";
-import { useParams } from "react-router-dom";
-import CardInterface from "../interfaces-20230423T085937Z-001/interfaces/CardInterface";
+import { Form, useParams } from "react-router-dom";
 import Card from "../components/card/Card";
+import useCards from "../hooks/useCards";
+import Spinner from "../../components/Spinner";
+import Error from "../../components/Error";
+import { Box, Grid, Input } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import { makeFirstLetterCapital } from "../../forms/utils/algoMethods";
+import ControlledAccordions from "../../components/Accordion";
 
 const CardDetailsPage = () => {
   const { cardId } = useParams();
-  const cards: CardInterface[] = [
-    {
-      _id: "abcd1",
-      title: "One",
-      subtitle: "Card Subtitle",
-      description: "the card description",
-      phone: "050-000000",
-      image: {
-        url: "https://cdn.pixabay.com/photo/2023/04/15/17/08/bernese-mountain-dog-7928156_640.jpg",
-        alt: "test",
-      },
-      web: "",
-      address: {
-        state: "",
-        country: "israel",
-        city: "tel-aviv",
-        street: "nahson",
-        houseNumber: 5,
-        zip: 1234,
-      },
-      bizNumber: 1000000,
-      email: "test@gmail.com",
-      likes: [],
-      user_id: "123456789",
-      createdAt: new Date(),
-    },
-    {
-      _id: "abcd2",
-      title: "Two",
-      subtitle: "Card Subtitle",
-      description: "the card description",
-      phone: "050-000000",
-      image: {
-        url: "https://cdn.pixabay.com/photo/2023/04/15/17/08/bernese-mountain-dog-7928156_640.jpg",
-        alt: "test",
-      },
-      web: "",
-      address: {
-        state: "",
-        country: "israel",
-        city: "tel-aviv",
-        street: "nahson",
-        houseNumber: 5,
-        zip: 1234,
-      },
-      bizNumber: 1000000,
-      email: "test@gmail.com",
-      likes: [],
-      user_id: "123456789",
-      createdAt: new Date(),
-    },
-    {
-      _id: "abcd3",
-      title: "Three",
-      subtitle: "Card Subtitle",
-      description: "the card description",
-      phone: "050-000000",
-      image: {
-        url: "https://cdn.pixabay.com/photo/2023/04/15/17/08/bernese-mountain-dog-7928156_640.jpg",
-        alt: "test",
-      },
-      web: "",
-      address: {
-        state: "",
-        country: "israel",
-        city: "tel-aviv",
-        street: "nahson",
-        houseNumber: 5,
-        zip: 1234,
-      },
-      bizNumber: 1000000,
-      email: "test@gmail.com",
-      likes: [],
-      user_id: "123456789",
-      createdAt: new Date(),
-    },
-  ];
+  const { value, handleGetCard } = useCards();
+  const { card, error, isLoading } = value;
 
-  const card = cards.find((card: CardInterface) => card._id === cardId);
+  useEffect(() => {
+    if (cardId) handleGetCard(cardId);
+  }, []);
 
-  if (!card) return <p>No card to display...</p>;
-  // const card =
-  return (
-    <Container>
-      <PageHeader
-        title="Business Details"
-        subtitle="Here you can see details of the business"
-      />
-      <div>
-        Details of card: {cardId}
-        <Card card={card} onDelete={console.log} />
-      </div>
-    </Container>
-  );
+  if (isLoading) return <Spinner />;
+  if (error) return <Error errorMessage={error} />;
+  if (!isLoading && !card) return <p>No card to display...</p>;
+
+  if (!isLoading && card)
+    return (
+      <Container>
+        <PageHeader
+          title="Business Details"
+          subtitle="Here you can see details of the business"
+        />
+        <div>
+          <Grid container spacing={2} pb={2}>
+            <Grid item xs={12} sm={6} md={6} lg={6}>
+              <img
+                src={card.image.url}
+                alt="key"
+                className="responsive-image"
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={6}
+              lg={6}
+              display="flex-box"
+              alignItems={"center"}
+              justify-content={"center"}
+              alignContent={"center"}
+              flexWrap={"wrap"}
+            >
+              <Box display={"block"}>
+                <Typography
+                  variant="h2"
+                  color="darkgoldenrod"
+                  fontFamily={"fantasy"}
+                  mt={6}
+                  textAlign={"center"}
+                  fontSize={"7vw"}
+                >
+                  {makeFirstLetterCapital(card.title)}
+                </Typography>
+              </Box>
+              <Box display={"block"}>
+                <Typography
+                  variant="h5"
+                  color="initial"
+                  fontFamily={"fantasy"}
+                  mb={1}
+                  textAlign={"center"}
+                  fontSize={"5vw"}
+                >
+                  {makeFirstLetterCapital(card.subtitle)}
+                </Typography>
+              </Box>
+              {/* <Box display={"block"}>
+                <Typography variant="h5" color="initial" fontSize={"2vw"}>
+                  {makeFirstLetterCapital(card.description)}
+                </Typography>
+              </Box> */}
+            </Grid>
+            <Grid item xs={12}>
+              <h2>Short Review</h2>
+              <Typography variant="body1">
+                {makeFirstLetterCapital(card.description)}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} sx={{ margin: "auto" }}>
+              <ControlledAccordions />
+            </Grid>
+          </Grid>
+        </div>
+      </Container>
+    );
+  return null;
 };
 
 export default CardDetailsPage;

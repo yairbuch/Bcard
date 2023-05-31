@@ -1,20 +1,20 @@
 import React from "react";
-import CardInterface from "./../interfaces-20230423T085937Z-001/interfaces/CardInterface";
-import Card from "./card/Card";
 import Grid from "@mui/material/Grid";
+import Card from "./card/Card";
+import CardInterface from "../models/interfaces/CardInterface";
 
-type Props = {
+type CardsProps = {
   cards: CardInterface[];
+  onDelete: (id: string) => void;
+  onLike: () => void;
 };
 
-const Cards: React.FC<Props> = ({ cards }) => {
-  const handleDelete = (id: string) =>
-    console.log(`You clicked card no: ${id}`);
+const Cards: React.FC<CardsProps> = ({ cards, onDelete, onLike }) => {
   return (
-    <Grid container spacing={2} pb={2} justifyContent={"center"}>
-      {cards.map((card: CardInterface) => (
+    <Grid container spacing={2} pb={2}>
+      {cards.map((card) => (
         <Grid item key={card._id} xs={12} sm={6} md={4} lg={3}>
-          <Card onDelete={handleDelete} card={card} />
+          <Card card={card} onDelete={onDelete} onLike={onLike} />
         </Grid>
       ))}
     </Grid>

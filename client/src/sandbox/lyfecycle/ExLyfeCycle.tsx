@@ -8,7 +8,7 @@ const ExLyfeCycle = () => {
         setTimeout(()=>{colorLog('5','red')},1000);
         return 0;
      })
-     useEffect(()=>{colorLog('3', 'green')
+     useEffect(()=>{colorLog('3', 'green');
     return ()=>{colorLog('6','yellow')}},[]);
      useEffect(()=>{colorLog('4', 'purple')},[count]);
   return (

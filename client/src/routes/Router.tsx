@@ -63,6 +63,12 @@ import CustomHookMenu from "../sandbox/customhooks/CustomHookMenu";
 import CustomNameEx2 from "../sandbox/customhooks/CustomNameEx2";
 import ContextMenu from "../sandbox/context/ContextMenu";
 import SnackExample from "../sandbox/context/SnackExample";
+import FormTest from "../sandbox/forms/FormTest";
+import CreateCardPage from "../cards/pages/CreateCardPage";
+import MyCardsPage from "../cards/pages/MyCardsPage";
+import FavCardPage from "../cards/pages/FavCardPage";
+import CRM from "../users/pages/Crm";
+import EditUserPage from "../users/pages/EditUserPage";
 
 const Router = () => {
   return (
@@ -73,10 +79,18 @@ const Router = () => {
         path={`${ROUTES.CARD_DETAILS}/:cardId`}
         element={<CardDetailsPage />}
       />
+      <Route path={ROUTES.MY_CARDS} element={<MyCardsPage />} />
+      <Route path={ROUTES.CREATE_CARD} element={<CreateCardPage />} />
       <Route path={`${ROUTES.CARD_EDIT}/:cardId`} element={<CardEditPage />} />
       <Route path={ROUTES.ABOUT} element={<AboutPage />} />
+      <Route path={`${ROUTES.FAV_CARDS}/:cardId`} element={<FavCardPage />} />
+      <Route path={ROUTES.CRM} element={<CRM />} />
       <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
       <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+      <Route
+        path={`${ROUTES.EDIT_USER_PAGE}/:userId`}
+        element={<EditUserPage />}
+      />
       <Route path={ROUTES.SANDBOX} element={<SandboxMenu />}>
         <Route path={SANDBOX_ROUTES.COMPONENT} element={<ComponentMenu />}>
           <Route path={SANDBOX_ROUTES.TEMPLATE} element={<Template />} />
@@ -229,6 +243,7 @@ const Router = () => {
             element={<SnackExample />}
           />
         </Route>
+        <Route path={SANDBOX_ROUTES.FORM} element={<FormTest />} />
       </Route>
       <Route path="*" element={<ErrorPage />} />
     </Routes>
