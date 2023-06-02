@@ -12,8 +12,6 @@ const FavCardPage = () => {
   const { value, ...rest } = useCards();
   const { isLoading, cards, error, filteredCards } = value;
   const { handleGetFavCards, handleDeleteCard, handleGetCards } = rest;
-  //   const { cardId } = useParams();
-  //   const { user } = useUser();
 
   useEffect(() => {
     handleGetFavCards();
@@ -31,7 +29,6 @@ const FavCardPage = () => {
     await handleGetFavCards();
   }, []);
 
-  //   if (user) return <Navigate replace to={ROUTES.FAV_CARDS} />;
   return (
     <Container>
       <PageHeader

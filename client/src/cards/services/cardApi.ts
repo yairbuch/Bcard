@@ -65,6 +65,7 @@ export const editCard = async (normalizedCard: NormalizedEditCard) => {
       `${apiUrl}/cards/${normalizedCard._id}`,
       cardToServer
     );
+    console.log(data);
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) return Promise.reject(error.message);

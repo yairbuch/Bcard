@@ -13,14 +13,20 @@ import Container from "@mui/material/Container";
 import { Button, Typography } from "@mui/material";
 import { Navigate, useParams } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
+import UserDeleteDialog from "../components/UserDeleteDialog";
 
 const Crm = () => {
-  const { handleGetAllUsersInfo, handleChangeUserStatus, value } =
-    useHandleUser();
-  const { filteredUsers } = value;
+  const {
+    handleGetAllUsersInfo,
+    handleChangeUserStatus,
+    handleDeleteUser,
+    value,
+  } = useHandleUser();
+  const { filteredUsers /* , setAllUsersInfo */ } = value;
   const { user } = useUser();
+  const [isDialogOpen, setDialog] = useState(false);
 
-  const { userId } = useParams();
+  // const { userId } = useParams();
 
   useEffect(() => {
     handleGetAllUsersInfo();
@@ -46,6 +52,11 @@ const Crm = () => {
     },
   }));
 
+  const handleDialog = (term?: string) => {
+    if (term === "open") return setDialog(true);
+    setDialog(false);
+  };
+
   const write = (admin: boolean, business: boolean) => {
     if (admin && business) return "Admin";
     if (!admin && business) return "Business";
@@ -56,9 +67,17 @@ const Crm = () => {
     Boolean(filteredUsers?.map((user) => user.isBusiness));
   });
 
-  const ChangeStatus = async () => {
+  const ChangeStatus = async (someUserId: string) => {
+    // handleDialog();
     setStatus((prev) => !prev);
-    await handleChangeUserStatus(userId);
+    // setAllUsersInfo(filteredUsers);
+    await handleChangeUserStatus(someUserId);
+  };
+
+  const DeleteUser = async (userId: string) => {
+    handleDialog();
+    await handleDeleteUser(userId);
+    await handleGetAllUsersInfo();
   };
 
   if (!user?.isAdmin) return <Navigate replace to={ROUTES.ROOT} />;
@@ -91,7 +110,7 @@ const Crm = () => {
                 <TableRow>
                   <StyledTableCell>Number</StyledTableCell>
                   <StyledTableCell>User Name</StyledTableCell>
-                  <StyledTableCell>ID</StyledTableCell>
+                  <StyledTableCell>Delete User</StyledTableCell>
                   <StyledTableCell>Email</StyledTableCell>
                   <StyledTableCell>Phone</StyledTableCell>
                   <StyledTableCell>Address</StyledTableCell>
@@ -107,12 +126,25 @@ const Crm = () => {
                     <StyledTableCell component="th" scope="row">
                       {`${user.name.first} ${user.name.last}`}
                     </StyledTableCell>
-                    <StyledTableCell>{user._id}</StyledTableCell>
+                    <StyledTableCell>
+                      <Button
+                        onClick={() => handleDialog("open")}
+                        disabled={user.isAdmin}
+                        color="error"
+                      >
+                        Delete
+                      </Button>
+                      <UserDeleteDialog
+                        isDialogOpen={isDialogOpen}
+                        onChangeDialog={handleDialog}
+                        onDelete={() => DeleteUser(user._id)}
+                      />
+                    </StyledTableCell>
                     <StyledTableCell>{user.email}</StyledTableCell>
                     <StyledTableCell>{user.phone}</StyledTableCell>
                     <StyledTableCell>{`${user.address.city}, ${user.address.street} ${user.address.houseNumber}`}</StyledTableCell>
                     <StyledTableCell>
-                      <Button onClick={ChangeStatus}>
+                      <Button onClick={() => ChangeStatus(user._id)}>
                         {write(user.isAdmin, user.isBusiness)}
                       </Button>
                     </StyledTableCell>

@@ -56,14 +56,13 @@ export const getUserInfo = async (userId: string) => {
 export const editUser = async (normalizedUser: NormalizedEditUser) => {
   try {
     const userToServer = { ...normalizedUser };
-    delete userToServer._id;
+    delete userToServer.password;
+
     const { data } = await axios.put<FullUserType>(
       `${apiUrl}/users/${normalizedUser._id}`,
       userToServer
     );
-    console.log(data);
-
-    return data;
+    return Promise.resolve(data);
   } catch (error) {
     if (axios.isAxiosError(error)) return Promise.reject(error.message);
     return Promise.reject("An unexpected error occurred!");
@@ -75,7 +74,18 @@ export const ChangeUserStatus = async (userId: string | undefined) => {
     const { data } = await axios.patch<FullUserType>(
       `${apiUrl}/users/${userId}`
     );
+
     return Promise.resolve(data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) return Promise.reject(error.message);
+    return Promise.reject("An unexpected error occurred!");
+  }
+};
+
+export const deleteUser = async (userId: string) => {
+  try {
+    const { data } = await axios.delete(`${apiUrl}/users/${userId}`);
+    return data;
   } catch (error) {
     if (axios.isAxiosError(error)) return Promise.reject(error.message);
     return Promise.reject("An unexpected error occurred!");

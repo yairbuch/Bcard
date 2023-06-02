@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const registerValidation = (user) => {
+const registerValidation = user => {
   const schema = Joi.object({
     name: Joi.object()
       .keys({
@@ -9,7 +9,7 @@ const registerValidation = (user) => {
         last: Joi.string().min(2).max(256).required(),
       })
       .required(),
-    isBusiness: Joi.boolean().required(),
+
     phone: Joi.string()
       .ruleset.regex(/0[0-9]{1,2}\-?\s?[0-9]{3}\s?[0-9]{4}/)
 
@@ -51,6 +51,7 @@ const registerValidation = (user) => {
         zip: Joi.number(),
       })
       .required(),
+    isBusiness: Joi.boolean().required(),
     isAdmin: Joi.boolean().allow(""),
   });
   return schema.validate(user);

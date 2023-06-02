@@ -21,7 +21,8 @@ const validateCardWithJoi = card => {
 
     web: Joi.string()
       .ruleset.regex(urlRegex)
-      .rule({ message: 'card "web" mast be a valid url' }).allow(""),
+      .rule({ message: 'card "web" mast be a valid url' })
+      .allow(""),
 
     image: Joi.object()
       .keys({
@@ -35,9 +36,9 @@ const validateCardWithJoi = card => {
     address: Joi.object()
       .keys({
         state: Joi.string().allow(""),
-        country: Joi.string().required(),
-        city: Joi.string().required(),
-        street: Joi.string().required(),
+        country: Joi.string().min(2).max(256).required(),
+        city: Joi.string().min(2).max(256).required(),
+        street: Joi.string().min(2).max(256).required(),
         houseNumber: Joi.number().required(),
         zip: Joi.number(),
       })

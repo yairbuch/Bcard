@@ -32,9 +32,9 @@
       "name": { "first": "admin", "last": "user" },
       "isBusiness": true,
       "isAdmin": true,
-      "phone": "050-0000000",
-      "email": "admin@gmail.com",
-      "password": "Aa1234!",
+      "phone": "050-00456732",
+      "email": "admin@gmail.co",
+      "password": "1234aA!",
       "address": {
         "country": "israel",
         "city": "tel-aviv",

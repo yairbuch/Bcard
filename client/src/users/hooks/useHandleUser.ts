@@ -20,6 +20,7 @@ import {
 } from "../services/LocalStorageService";
 import {
   ChangeUserStatus,
+  deleteUser,
   editUser,
   getAllUsersInfo,
   getUserInfo,
@@ -130,7 +131,6 @@ const useHandleUser = () => {
       setLoading(true);
       const userInfo = await getUserInfo(userId);
       requestStatus(false, null, user, userInfo);
-      console.log("in handlegetUserInfo");
       return userInfo;
     } catch (error) {
       if (typeof error === "string") requestStatus(false, error, null);
@@ -144,9 +144,8 @@ const useHandleUser = () => {
         const normalizedUser = normalizeEditUser(userFromClient);
         const userInfoFromServer = await editUser(normalizedUser);
         setUserInfo(userInfoFromServer);
-        requestStatus(false, null, user, userInfoFromServer);
+        requestStatus(false, null, null, userInfoFromServer);
         snack("success", "The user details has been successfully updated");
-        // console.log(userInfoFromServer);
         navigate(ROUTES.MY_CARDS);
       } catch (error) {
         if (typeof error === "string") return requestStatus(false, error, null);
@@ -159,7 +158,9 @@ const useHandleUser = () => {
     async (userId: string | undefined) => {
       try {
         const user = await ChangeUserStatus(userId);
-        requestStatus(false, null, user);
+        setUserInfo(user);
+        requestStatus(false, null, null, user);
+        return user;
       } catch (error) {
         if (typeof error === "string") return requestStatus(false, error, null);
       }
@@ -167,9 +168,39 @@ const useHandleUser = () => {
     []
   );
 
+  const handleDeleteUser = useCallback(async (userId: string) => {
+    try {
+      setLoading(true);
+      await deleteUser(userId);
+      snack("success", "The user has been successfully deleted");
+    } catch (error) {
+      if (typeof error === "string") return requestStatus(false, error, null);
+    }
+  }, []);
+
   const value = useMemo(() => {
-    return { isLoading, error, user, userInfo, AllUsersInfo, filteredUsers };
-  }, [isLoading, error, user, userInfo, AllUsersInfo, filteredUsers]);
+    return {
+      isLoading,
+      error,
+      user,
+      userInfo,
+      AllUsersInfo,
+      filteredUsers,
+      setAllUsersInfo,
+      setUser,
+      setUserInfo,
+    };
+  }, [
+    isLoading,
+    error,
+    user,
+    userInfo,
+    AllUsersInfo,
+    filteredUsers,
+    setAllUsersInfo,
+    setUser,
+    setUserInfo,
+  ]);
 
   return {
     value,
@@ -180,6 +211,7 @@ const useHandleUser = () => {
     handleUpdateUser,
     handleGetAllUsersInfo,
     handleChangeUserStatus,
+    handleDeleteUser,
   };
 };
 

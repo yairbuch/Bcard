@@ -1,6 +1,7 @@
 import { Container } from "@mui/material";
 import React, { useEffect } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+import Form from "../../forms/components/Form";
 import useForm from "../../forms/hooks/useForm";
 import ROUTES from "../../routes/routesModel";
 import UserForm from "../components/UserForm";
@@ -13,7 +14,7 @@ import { useUser } from "../providers/UserProvider";
 
 const EditUserPage = () => {
   const { user } = useUser();
-  //   const { userId } = useParams();
+  const { userId } = useParams();
   const { handleGetUserInfo, handleUpdateUser } = useHandleUser();
 
   const navigate = useNavigate();
@@ -29,8 +30,8 @@ const EditUserPage = () => {
     rest;
 
   useEffect(() => {
-    if (user?._id)
-      handleGetUserInfo(user._id).then((userInfoFromService) => {
+    if (userId)
+      handleGetUserInfo(userId).then((userInfoFromService) => {
         if (user?._id !== userInfoFromService?._id)
           return navigate(ROUTES.ROOT);
         const modeledUser = mapUserToModel(userInfoFromService!);

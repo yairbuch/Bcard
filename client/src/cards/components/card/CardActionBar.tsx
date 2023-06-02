@@ -39,7 +39,6 @@ const CardActionBar = ({
   const handleLike = async () => {
     setLiked((prev) => !prev);
     await handleLikeCard(cardId);
-    // await handleGetFavCards();
     onLike();
   };
 

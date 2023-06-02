@@ -46,7 +46,7 @@ export type NormalizedEditUser = {
   name: UserNameType;
   phone: string;
   email: string;
-  password: string;
+  password?: string;
   isBusiness: boolean;
   image: ImageType;
   address: AddressType;
