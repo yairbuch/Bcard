@@ -29,20 +29,22 @@ import {
 } from "../services/usersApiService";
 
 type ErrorType = null | string;
-// type UsersType = null | UserType[];
+
 const useHandleUser = () => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<ErrorType>(null);
   const [userInfo, setUserInfo] = useState<FullUserType | null>(null);
   const [AllUsersInfo, setAllUsersInfo] = useState<FullUserType[] | null>(null);
   const { setUser, setToken, user } = useUser();
+  const [failedAttempts, setFailedAttempts] = useState(0);
+  const [isBlocked, setIsBlocked] = useState(false);
   const [query, setQuery] = useState("");
   const [filteredUsers, setFilter] = useState<FullUserType[] | null>(null);
   const [searchParams] = useSearchParams();
 
   useAxios();
-  const snack = useSnack();
 
+  const snack = useSnack();
   const navigate = useNavigate();
 
   const requestStatus = useCallback(
@@ -71,17 +73,38 @@ const useHandleUser = () => {
       setFilter(
         AllUsersInfo.filter(
           (user) =>
-            user.name.first.includes(query) ||
-            String(user.name.last).includes(query) ||
-            String(user.isBusiness)
+            user.name.first.includes(query) || user.name.last.includes(query)
+          // String(user.isBusiness)
         )
       );
     }
   }, [AllUsersInfo, query]);
 
+  // const handleLogin = useCallback(
+  //   async (user: Login) => {
+  //     try {
+  //       setLoading(true);
+  //       const token = await login(user);
+  //       setTokenInLocalStorage(token);
+  //       setToken(token);
+  //       const userFromLocalStorage = getUser();
+  //       requestStatus(false, null, userFromLocalStorage);
+  //       navigate(ROUTES.ROOT);
+  //     } catch (error) {
+  //       if (typeof error === "string") requestStatus(false, error, null);
+  //     }
+  //   },
+  //   [setToken, navigate, requestStatus]
+  // );
+
   const handleLogin = useCallback(
     async (user: Login) => {
       try {
+        if (isBlocked) {
+          snack("error", "Your account is blocked. Please try again later.");
+          return;
+        }
+
         setLoading(true);
         const token = await login(user);
         setTokenInLocalStorage(token);
@@ -89,11 +112,27 @@ const useHandleUser = () => {
         const userFromLocalStorage = getUser();
         requestStatus(false, null, userFromLocalStorage);
         navigate(ROUTES.ROOT);
+        setFailedAttempts(0);
       } catch (error) {
-        if (typeof error === "string") requestStatus(false, error, null);
+        if (typeof error === "string") {
+          requestStatus(false, error, null);
+          snack("error", "Incorrect email/password");
+
+          setFailedAttempts((prevAttempts) => prevAttempts + 1);
+
+          if (failedAttempts >= 2) {
+            setIsBlocked(true);
+            snack(
+              "error",
+              "Too many failed attempts. Your account is blocked for 1 minute."
+            );
+
+            setTimeout(() => setIsBlocked(false), 60 * 1000);
+          }
+        }
       }
     },
-    [setToken, navigate, requestStatus]
+    [setToken, navigate, requestStatus, snack, isBlocked, failedAttempts]
   );
 
   const handleLogout = useCallback(() => {
@@ -159,7 +198,8 @@ const useHandleUser = () => {
       try {
         const user = await ChangeUserStatus(userId);
         setUserInfo(user);
-        requestStatus(false, null, null, user);
+        // requestStatus(false, null, null, user);
+        snack("success", "The user status has been successfully changed");
         return user;
       } catch (error) {
         if (typeof error === "string") return requestStatus(false, error, null);

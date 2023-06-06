@@ -76,11 +76,6 @@ const CardDetailsPage = () => {
                   {makeFirstLetterCapital(card.subtitle)}
                 </Typography>
               </Box>
-              {/* <Box display={"block"}>
-                <Typography variant="h5" color="initial" fontSize={"2vw"}>
-                  {makeFirstLetterCapital(card.description)}
-                </Typography>
-              </Box> */}
             </Grid>
             <Grid item xs={12}>
               <h2>Short Review</h2>

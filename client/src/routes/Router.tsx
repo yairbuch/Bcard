@@ -69,6 +69,7 @@ import MyCardsPage from "../cards/pages/MyCardsPage";
 import FavCardPage from "../cards/pages/FavCardPage";
 import CRM from "../users/pages/Crm";
 import EditUserPage from "../users/pages/EditUserPage";
+import ProfilePage from "../users/pages/ProfilePage";
 
 const Router = () => {
   return (
@@ -90,6 +91,10 @@ const Router = () => {
       <Route
         path={`${ROUTES.EDIT_USER_PAGE}/:userId`}
         element={<EditUserPage />}
+      />
+      <Route
+        path={`${ROUTES.PROFILE_USER_PAGE}/:userId`}
+        element={<ProfilePage />}
       />
       <Route path={ROUTES.SANDBOX} element={<SandboxMenu />}>
         <Route path={SANDBOX_ROUTES.COMPONENT} element={<ComponentMenu />}>

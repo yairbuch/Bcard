@@ -22,11 +22,10 @@ const Crm = () => {
     handleDeleteUser,
     value,
   } = useHandleUser();
-  const { filteredUsers /* , setAllUsersInfo */ } = value;
+
+  const { filteredUsers } = value;
   const { user } = useUser();
   const [isDialogOpen, setDialog] = useState(false);
-
-  // const { userId } = useParams();
 
   useEffect(() => {
     handleGetAllUsersInfo();
@@ -58,7 +57,7 @@ const Crm = () => {
   };
 
   const write = (admin: boolean, business: boolean) => {
-    if (admin && business) return "Admin";
+    if (admin) return "Admin";
     if (!admin && business) return "Business";
     if (!admin && !business) return "Regular";
   };
@@ -68,10 +67,10 @@ const Crm = () => {
   });
 
   const ChangeStatus = async (someUserId: string) => {
-    // handleDialog();
     setStatus((prev) => !prev);
     // setAllUsersInfo(filteredUsers);
     await handleChangeUserStatus(someUserId);
+    await handleGetAllUsersInfo();
   };
 
   const DeleteUser = async (userId: string) => {

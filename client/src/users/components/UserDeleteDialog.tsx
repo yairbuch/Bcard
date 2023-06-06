@@ -40,7 +40,7 @@ const UserDeleteDialog: FC<Props> = ({
         <Button onClick={() => onChangeDialog()} color="error">
           cancel
         </Button>
-        <Button onClick={() => onDelete(userId)} autoFocus color="info">
+        <Button onClick={() => onDelete("")} autoFocus color="info">
           Delete card
         </Button>
       </DialogActions>

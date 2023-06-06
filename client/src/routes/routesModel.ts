@@ -12,6 +12,7 @@ const ROUTES = {
   CREATE_CARD: "/create-card",
   CRM: "/crm",
   EDIT_USER_PAGE: "/edit-user-page",
+  PROFILE_USER_PAGE: "/profile-user-page",
 };
 
 export const SANDBOX_ROUTES = {

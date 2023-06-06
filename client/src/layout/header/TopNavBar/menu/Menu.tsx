@@ -22,7 +22,7 @@ const Menu: React.FC<Props> = ({ isOpen, anchorEl, onClose }) => {
     onClose();
   };
 
-  const { userId } = useParams();
+  const { cardId } = useParams();
 
   return (
     <MuiMenu
@@ -65,7 +65,11 @@ const Menu: React.FC<Props> = ({ isOpen, anchorEl, onClose }) => {
         )}
         {user && (
           <>
-            <MenuLink label="profile" navigateTo={"/"} onClick={onClose} />
+            <MenuLink
+              label="profile"
+              navigateTo={`${ROUTES.PROFILE_USER_PAGE}/${user._id}`}
+              onClick={onClose}
+            />
             <MenuLink
               label="edit account"
               navigateTo={`${ROUTES.EDIT_USER_PAGE}/${user._id}`}
