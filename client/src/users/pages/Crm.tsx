@@ -14,6 +14,7 @@ import { Button, Typography } from "@mui/material";
 import { Navigate, useParams } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
 import UserDeleteDialog from "../components/UserDeleteDialog";
+import UserChangeStatus from "../components/UserChangeStatus";
 
 const Crm = () => {
   const {
@@ -26,6 +27,7 @@ const Crm = () => {
   const { filteredUsers } = value;
   const { user } = useUser();
   const [isDialogOpen, setDialog] = useState(false);
+  const [isDialogOpenStatus, setDialogStatus] = useState(false);
 
   useEffect(() => {
     handleGetAllUsersInfo();
@@ -56,6 +58,11 @@ const Crm = () => {
     setDialog(false);
   };
 
+  const handleDialogStatus = (term?: string) => {
+    if (term === "open") return setDialogStatus(true);
+    setDialogStatus(false);
+  };
+
   const write = (admin: boolean, business: boolean) => {
     if (admin) return "Admin";
     if (!admin && business) return "Business";
@@ -67,6 +74,7 @@ const Crm = () => {
   });
 
   const ChangeStatus = async (someUserId: string) => {
+    handleDialogStatus();
     setStatus((prev) => !prev);
     // setAllUsersInfo(filteredUsers);
     await handleChangeUserStatus(someUserId);
@@ -127,7 +135,7 @@ const Crm = () => {
                     </StyledTableCell>
                     <StyledTableCell>
                       <Button
-                        onClick={() => handleDialog("open")}
+                        onClick={() => DeleteUser(user._id)}
                         disabled={user.isAdmin}
                         color="error"
                       >
@@ -144,8 +152,13 @@ const Crm = () => {
                     <StyledTableCell>{`${user.address.city}, ${user.address.street} ${user.address.houseNumber}`}</StyledTableCell>
                     <StyledTableCell>
                       <Button onClick={() => ChangeStatus(user._id)}>
-                        {write(user.isAdmin, user.isBusiness)}
+                        {write(user.isAdmin, user.isBusiness)}{" "}
                       </Button>
+                      <UserChangeStatus
+                        isDialogOpen={isDialogOpenStatus}
+                        onChangeDialog={handleDialogStatus}
+                        onChangeStatus={() => ChangeStatus(user._id)}
+                      />
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}

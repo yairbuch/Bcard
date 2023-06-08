@@ -12,7 +12,7 @@ const SandboxMenu = () => {
   if (!user || !user.isAdmin) return <Navigate replace to={ROUTES.ROOT} />;
   return (
     <>
-      <AppBar position="sticky" color="transparent">
+      <AppBar position="relative" color="transparent">
         <Toolbar>
           <NavItem
             label="component"
