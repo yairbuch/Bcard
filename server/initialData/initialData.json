@@ -14,6 +14,34 @@
         "houseNumber": "5"
       },
       "image": { "url": "", "alt": "" }
+    },
+    {
+      "name": { "first": "regular", "last": "user" },
+      "isBusiness": false,
+      "phone": "050-0000000",
+      "email": "regular@gmail.com",
+      "password": "Aa1234!",
+      "address": {
+        "country": "israel",
+        "city": "tel-aviv",
+        "street": "magnive",
+        "houseNumber": "5"
+      },
+      "image": { "url": "", "alt": "" }
+    },
+    {
+      "name": { "first": "business", "last": "user" },
+      "isBusiness": true,
+      "phone": "050-0000000",
+      "email": "business@gmail.com",
+      "password": "Aa1234!",
+      "address": {
+        "country": "israel",
+        "city": "tel-aviv",
+        "street": "magnive",
+        "houseNumber": "5"
+      },
+      "image": { "url": "", "alt": "" }
     }
   ],
   "cards": []

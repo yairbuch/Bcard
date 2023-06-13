@@ -92,9 +92,9 @@ const AboutPage = () => {
           admin (in that site you can insert the email: admin@gmail.com and the
           password: Aa1234! to get that page and see how it works) the link
           'CRM' will appear in the head navbar. The page consist table with the
-          details of all the users in the website. By now you can just to see
-          their deatils but in the future you will be able to change their
-          business status and delete users.
+          details of all the users in the website. You can delete users by
+          clicking the delete button or change their status by clicking the
+          business status.
         </Grid>
         <Grid item md={7} xs={12}>
           <img src="/assets/images/crm.png" alt="card" width="100%" />

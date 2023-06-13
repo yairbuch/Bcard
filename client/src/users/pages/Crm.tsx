@@ -11,10 +11,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
 import { Button, Typography } from "@mui/material";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
-import UserDeleteDialog from "../components/UserDeleteDialog";
-import UserChangeStatus from "../components/UserChangeStatus";
 
 const Crm = () => {
   const {
@@ -26,8 +24,6 @@ const Crm = () => {
 
   const { filteredUsers } = value;
   const { user } = useUser();
-  const [isDialogOpen, setDialog] = useState(false);
-  const [isDialogOpenStatus, setDialogStatus] = useState(false);
 
   useEffect(() => {
     handleGetAllUsersInfo();
@@ -53,16 +49,6 @@ const Crm = () => {
     },
   }));
 
-  const handleDialog = (term?: string) => {
-    if (term === "open") return setDialog(true);
-    setDialog(false);
-  };
-
-  const handleDialogStatus = (term?: string) => {
-    if (term === "open") return setDialogStatus(true);
-    setDialogStatus(false);
-  };
-
   const write = (admin: boolean, business: boolean) => {
     if (admin) return "Admin";
     if (!admin && business) return "Business";
@@ -74,15 +60,13 @@ const Crm = () => {
   });
 
   const ChangeStatus = async (someUserId: string) => {
-    handleDialogStatus();
     setStatus((prev) => !prev);
-    // setAllUsersInfo(filteredUsers);
     await handleChangeUserStatus(someUserId);
+    console.log(someUserId);
     await handleGetAllUsersInfo();
   };
 
   const DeleteUser = async (userId: string) => {
-    handleDialog();
     await handleDeleteUser(userId);
     await handleGetAllUsersInfo();
   };
@@ -138,14 +122,10 @@ const Crm = () => {
                         onClick={() => DeleteUser(user._id)}
                         disabled={user.isAdmin}
                         color="error"
+                        variant="contained"
                       >
                         Delete
                       </Button>
-                      <UserDeleteDialog
-                        isDialogOpen={isDialogOpen}
-                        onChangeDialog={handleDialog}
-                        onDelete={() => DeleteUser(user._id)}
-                      />
                     </StyledTableCell>
                     <StyledTableCell>{user.email}</StyledTableCell>
                     <StyledTableCell>{user.phone}</StyledTableCell>
@@ -154,11 +134,6 @@ const Crm = () => {
                       <Button onClick={() => ChangeStatus(user._id)}>
                         {write(user.isAdmin, user.isBusiness)}{" "}
                       </Button>
-                      <UserChangeStatus
-                        isDialogOpen={isDialogOpenStatus}
-                        onChangeDialog={handleDialogStatus}
-                        onChangeStatus={() => ChangeStatus(user._id)}
-                      />
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
