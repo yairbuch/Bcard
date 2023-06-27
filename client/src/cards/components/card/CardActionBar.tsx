@@ -33,6 +33,7 @@ const CardActionBar = ({
   const { handleLikeCard } = useCards();
 
   const [isLiked, setLiked] = useState<boolean | void>(() => {
+    if (!user) return false;
     Boolean(cardLikes.find((id) => id === user?._id));
   });
 
@@ -52,11 +53,11 @@ const CardActionBar = ({
     onDelete(cardId);
   };
 
-  useEffect(() => {
-    return () => {
-      setLiked(isLiked);
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     setLiked(isLiked);
+  //   };
+  // }, []);
   return (
     <>
       <CardActions
@@ -64,7 +65,7 @@ const CardActionBar = ({
         sx={{ pt: 0, justifyContent: "space-between" }}
       >
         <Box>
-          {user && (user._id === cardUserId || user.isAdmin) && (
+          {user && (user?._id === cardUserId || user.isAdmin) && (
             <IconButton
               aria-label="delete card"
               onClick={() => handleDialog("open")}
