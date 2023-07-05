@@ -8,7 +8,7 @@ type CardsPageProps = {};
 
 const CardsPage: React.FC<CardsPageProps> = () => {
   const { value, handleGetCards, handleDeleteCard } = useCards();
-  const { cards, error, isLoading, filteredCards } = value;
+  const { error, isLoading, filteredCards } = value;
 
   useEffect(() => {
     handleGetCards();
@@ -19,6 +19,7 @@ const CardsPage: React.FC<CardsPageProps> = () => {
     await handleGetCards();
   };
 
+  const onLikeCard = async () => {};
   return (
     <Container>
       <PageHeader
@@ -30,7 +31,7 @@ const CardsPage: React.FC<CardsPageProps> = () => {
         error={error}
         isLoading={isLoading}
         onDelete={onDeleteCard}
-        onLike={() => {}}
+        onLike={onLikeCard}
       />
     </Container>
   );

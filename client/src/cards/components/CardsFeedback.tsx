@@ -17,7 +17,9 @@ const CardsFeedback: React.FC<CardsFeedbackProps> = ({
   isLoading,
   error,
   cards,
-  onDelete = (cardId) => console.log("you deleted card: " + cardId),
+  onDelete = (cardId) => {
+    console.log(`you deleted car ${cardId}`);
+  },
   onLike = () => {},
 }) => {
   if (isLoading) return <Spinner />;

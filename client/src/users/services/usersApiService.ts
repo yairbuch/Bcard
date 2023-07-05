@@ -3,8 +3,6 @@ import UserType, {
   FullUserType,
   LoginType,
   NormalizedEditUser,
-  RegistrationForm,
-  TokenType,
   UserRegistered,
 } from "../models/types/userTypes";
 
@@ -56,7 +54,6 @@ export const getUserInfo = async (userId: string) => {
 export const editUser = async (normalizedUser: NormalizedEditUser) => {
   try {
     const userToServer = { ...normalizedUser };
-    delete userToServer.password;
 
     const { data } = await axios.put<FullUserType>(
       `${apiUrl}/users/${normalizedUser._id}`,

@@ -1,5 +1,6 @@
 import { useCallback, useState, useMemo, useEffect } from "react";
 import {
+  changeBizNumber,
   changeLikeStatus,
   createCard,
   deleteCard,
@@ -165,6 +166,18 @@ const useCards = () => {
     }
   }, [user]);
 
+  const handleChangeBizNumber = useCallback(
+    async (cardId: string | undefined, bizNumber: string) => {
+      try {
+        await changeBizNumber(cardId, bizNumber);
+        snack("success", "The user biz number has been successfully changed");
+      } catch (error) {
+        if (typeof error === "string") return requestStatus(false, error, null);
+      }
+    },
+    []
+  );
+
   const value = useMemo(() => {
     return { isLoading, cards, card, error, filteredCards };
   }, [isLoading, cards, card, error, filteredCards]);
@@ -179,6 +192,7 @@ const useCards = () => {
     handleUpdateCard,
     handleLikeCard,
     handleGetFavCards,
+    handleChangeBizNumber,
   };
 };
 

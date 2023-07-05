@@ -62,7 +62,6 @@ const Crm = () => {
   const ChangeStatus = async (someUserId: string) => {
     setStatus((prev) => !prev);
     await handleChangeUserStatus(someUserId);
-    console.log(someUserId);
     await handleGetAllUsersInfo();
   };
 

@@ -4,26 +4,20 @@ import React, { useCallback, useEffect } from "react";
 import CardsFeedback from "../components/CardsFeedback";
 import useCards from "../hooks/useCards";
 import PageHeader from "../../components/PageHeader";
-import { Navigate } from "react-router-dom";
-import ROUTES from "../../routes/routesModel";
-import { useUser } from "../../users/providers/UserProvider";
 
 const FavCardPage = () => {
   const { value, ...rest } = useCards();
-  const { isLoading, cards, error, filteredCards } = value;
-  const { handleGetFavCards, handleDeleteCard, handleGetCards } = rest;
+  const { isLoading, error, filteredCards } = value;
+  const { handleGetFavCards, handleDeleteCard } = rest;
 
   useEffect(() => {
     handleGetFavCards();
   }, []);
 
-  const onDeleteCard = useCallback(
-    async (cardId: string) => {
-      await handleDeleteCard(cardId);
-      await handleGetCards();
-    },
-    [handleDeleteCard]
-  );
+  const onDeleteCard = useCallback(async (cardId: string) => {
+    await handleDeleteCard(cardId);
+    await handleGetFavCards();
+  }, []);
 
   const changeLikeStatus = useCallback(async () => {
     await handleGetFavCards();

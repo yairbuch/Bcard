@@ -1,16 +1,17 @@
 import { Container } from "@mui/material";
 import React, { useEffect } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import Form from "../../forms/components/Form";
 import useForm from "../../forms/hooks/useForm";
 import ROUTES from "../../routes/routesModel";
 import UserForm from "../components/UserForm";
 import initialSignupForm from "../helpers/initialForms/initialSignupForm";
 import mapUserToModel from "../helpers/normalization/mapUserToModel";
-import normalizeEditUser from "../helpers/normalization/normalizeEditUser";
 import useHandleUser from "../hooks/useHandleUser";
 import editUserSchema from "../models/joi-schema/editUserSchema";
 import { useUser } from "../providers/UserProvider";
+import UserEditForm from "../components/UserEditForm";
+import initialEditForm from "../helpers/initialForms/initialEditForm";
+import mapEditedUserToModel from "../helpers/normalization/mapEditUserToModel";
 
 const EditUserPage = () => {
   const { user } = useUser();
@@ -20,7 +21,7 @@ const EditUserPage = () => {
   const navigate = useNavigate();
 
   const { value, ...rest } = useForm(
-    initialSignupForm,
+    /* initialSignupForm, */ initialEditForm,
     editUserSchema,
     handleUpdateUser
   );
@@ -34,7 +35,7 @@ const EditUserPage = () => {
       handleGetUserInfo(userId).then((userInfoFromService) => {
         if (user?._id !== userInfoFromService?._id)
           return navigate(ROUTES.ROOT);
-        const modeledUser = mapUserToModel(userInfoFromService!);
+        const modeledUser = mapEditedUserToModel(userInfoFromService!);
         setData(modeledUser);
       });
   }, []);
@@ -50,7 +51,17 @@ const EditUserPage = () => {
           alignItems: "center",
         }}
       >
-        <UserForm
+        {/* <UserForm
+          title="edit user"
+          onSubmit={onSubmit}
+          onReset={handleReset}
+          data={data}
+          errors={errors}
+          onFormChange={validateForm}
+          onInputChange={handleInputChange}
+          setData={setData}
+        /> */}
+        <UserEditForm
           title="edit user"
           onSubmit={onSubmit}
           onReset={handleReset}

@@ -1,12 +1,11 @@
-import React, { useEffect, CSSProperties } from "react";
+import React, { useEffect } from "react";
 import Container from "@mui/material/Container";
 import PageHeader from "./../../components/PageHeader";
-import { Form, useParams } from "react-router-dom";
-import Card from "../components/card/Card";
+import { useParams } from "react-router-dom";
 import useCards from "../hooks/useCards";
 import Spinner from "../../components/Spinner";
 import Error from "../../components/Error";
-import { Box, Grid, Input } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { makeFirstLetterCapital } from "../../forms/utils/algoMethods";
 import ControlledAccordions from "../../components/Accordion";

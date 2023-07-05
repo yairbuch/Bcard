@@ -33,7 +33,9 @@ const signupSchema = {
   city: Joi.string().min(2).max(256).required(),
   street: Joi.string().min(2).max(256).required(),
   houseNumber: Joi.number().required(),
-  zip: Joi.number(),
+  zip: Joi.number().min(1000).rule({
+    message: "user zip must be greater than or equal to 4 digits",
+  }),
   isBusiness: Joi.boolean().required(),
 };
 

@@ -65,7 +65,6 @@ export const editCard = async (normalizedCard: NormalizedEditCard) => {
       `${apiUrl}/cards/${normalizedCard._id}`,
       cardToServer
     );
-    console.log(data);
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) return Promise.reject(error.message);
@@ -77,7 +76,28 @@ export const changeLikeStatus = async (cardId: string) => {
     const { data } = await axios.patch<CardInterface>(
       `${apiUrl}/cards/${cardId}`
     );
-    return data;
+    // return data;
+    return Promise.resolve(data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) return Promise.reject(error.message);
+  }
+};
+
+export const changeBizNumber = async (
+  cardId: string | undefined,
+  bizNumber: string
+) => {
+  try {
+    const bizNumberToServer = { bizNumber: bizNumber };
+
+    console.log(bizNumberToServer);
+
+    const { data } = await axios.patch(
+      `${apiUrl}/cards/biz-number/${cardId}`,
+      bizNumberToServer
+    );
+
+    return Promise.resolve(data);
   } catch (error) {
     if (axios.isAxiosError(error)) return Promise.reject(error.message);
   }

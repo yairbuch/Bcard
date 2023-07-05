@@ -13,6 +13,7 @@ const ROUTES = {
   CRM: "/crm",
   EDIT_USER_PAGE: "/edit-user-page",
   PROFILE_USER_PAGE: "/profile-user-page",
+  CHANGE_BIZ_NUMBER: "/biz-number",
 };
 
 export const SANDBOX_ROUTES = {

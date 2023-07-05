@@ -24,6 +24,8 @@ const MyCardsPage = () => {
     await handleGetMyCards();
   };
 
+  const onLikeCard = () => {};
+
   if (!user || !user.isBusiness)
     return <Navigate replace to={ROUTES.MY_CARDS} />;
 
@@ -53,7 +55,7 @@ const MyCardsPage = () => {
         error={error}
         cards={filteredCards}
         onDelete={onDeleteCard}
-        onLike={() => {}}
+        onLike={onLikeCard}
       />
     </Container>
   );

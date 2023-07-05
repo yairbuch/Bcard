@@ -1,27 +1,30 @@
-const normalizeUser = rawUser => {
-  const name = { ...rawUser.name, middle: rawUser.name.middle || "" };
+const { generatePassword } = require("./bycript");
 
+const normalizeUser = (rawUser) => {
+  const name = {
+    ...rawUser.name,
+    middle: rawUser.name.middle || "",
+  };
   const image = {
     ...rawUser.image,
     url:
       rawUser.image.url ||
-      "https://cdn.pixabay.com/photo/2016/04/01/10/11/avatar-1299805_960_720.png",
-    alt: rawUser.image.alt || "Business card image",
+      "https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_960_720.jpg",
+    alt: rawUser.image.alt || "user image",
   };
 
   const address = {
     ...rawUser.address,
-    state: rawUser.address.state || "not defined",
+    state: rawUser.address.state || "",
+    zip: rawUser.address.zip || 0,
   };
-
-  const user = {
+  return {
     ...rawUser,
-    name,
     image,
+    name,
     address,
+    password: generatePassword(rawUser.password),
   };
-
-  return user;
 };
 
 module.exports = normalizeUser;

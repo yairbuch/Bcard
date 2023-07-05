@@ -1,18 +1,18 @@
 const jwt = require("jsonwebtoken");
 const config = require("config");
 
-const key = config.get("JWT_KEY");
+const KEY = config.get("JWT_KEY");
 
 const generateAuthToken = (user) => {
   const { _id, isBusiness, isAdmin } = user;
-  const token = jwt.sign({ _id, isBusiness, isAdmin }, key);
+  const token = jwt.sign(user, KEY);
   return token;
 };
 
 const verifyToken = (tokenFromClient) => {
   try {
-    const userDataFromPayload = jwt.verify(tokenFromClient, key);
-    return userDataFromPayload;
+    const userPayload = jwt.verify(tokenFromClient, KEY);
+    return userPayload;
   } catch (error) {
     return null;
   }

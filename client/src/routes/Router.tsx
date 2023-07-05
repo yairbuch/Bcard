@@ -70,6 +70,7 @@ import FavCardPage from "../cards/pages/FavCardPage";
 import CRM from "../users/pages/Crm";
 import EditUserPage from "../users/pages/EditUserPage";
 import ProfilePage from "../users/pages/ProfilePage";
+import ChangeBizNumberDialog from "../cards/pages/ChangeBizNumberPage";
 
 const Router = () => {
   return (
@@ -95,6 +96,10 @@ const Router = () => {
       <Route
         path={`${ROUTES.PROFILE_USER_PAGE}/:userId`}
         element={<ProfilePage />}
+      />
+      <Route
+        path={`${ROUTES.CHANGE_BIZ_NUMBER}/:cardId`}
+        element={<ChangeBizNumberDialog />}
       />
       <Route path={ROUTES.SANDBOX} element={<SandboxMenu />}>
         <Route path={SANDBOX_ROUTES.COMPONENT} element={<ComponentMenu />}>

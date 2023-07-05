@@ -75,6 +75,26 @@ export type UserMapToModelType = {
   isAdmin: boolean;
 };
 
+export type EditedUserMapToModelType = {
+  _id: string;
+  first: string;
+  middle: string;
+  last: string;
+  phone: string;
+  email: string;
+  url: string;
+  alt: string;
+  state: string;
+  country: string;
+  city: string;
+  street: string;
+  houseNumber: string;
+  zip: string;
+  isBusiness: boolean;
+  CreatedAt: Date;
+  isAdmin: boolean;
+};
+
 export type Login = Pick<UserType, "email" | "password">;
 
 export type RegistrationForm = {
@@ -84,6 +104,23 @@ export type RegistrationForm = {
   phone: string;
   email: string;
   password: string;
+  url: string;
+  alt: string;
+  state: string;
+  country: string;
+  city: string;
+  street: string;
+  houseNumber: string;
+  zip: string;
+  isBusiness: boolean;
+};
+
+export type EditForm = {
+  first: string;
+  middle: string;
+  last: string;
+  phone: string;
+  email: string;
   url: string;
   alt: string;
   state: string;

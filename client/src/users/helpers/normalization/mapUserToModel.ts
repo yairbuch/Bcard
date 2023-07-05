@@ -1,4 +1,3 @@
-import React from "react";
 import { FullUserType, UserMapToModelType } from "../../models/types/userTypes";
 
 const mapUserToModel = (user: FullUserType): UserMapToModelType => {

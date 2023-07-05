@@ -32,8 +32,6 @@ const Card: React.FC<CardProps> = ({ card, onDelete, onLike }) => {
         onDelete={onDelete}
         cardLikes={card.likes}
         onLike={onLike}
-        
-
       />
     </MuiCard>
   );

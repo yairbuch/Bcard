@@ -165,11 +165,12 @@ const useHandleUser = () => {
       try {
         setLoading(true);
         const normalizedUser = normalizeEditUser(userFromClient);
+
         const userInfoFromServer = await editUser(normalizedUser);
         setUserInfo(userInfoFromServer);
         requestStatus(false, null, null, userInfoFromServer);
         snack("success", "The user details has been successfully updated");
-        navigate(ROUTES.MY_CARDS);
+        navigate(ROUTES.CARDS);
       } catch (error) {
         if (typeof error === "string") return requestStatus(false, error, null);
       }
@@ -180,11 +181,8 @@ const useHandleUser = () => {
   const handleChangeUserStatus = useCallback(
     async (userId: string | undefined) => {
       try {
-        const user = await ChangeUserStatus(userId);
-        setUserInfo(user);
-        // requestStatus(false, null, null, user);
+        await ChangeUserStatus(userId);
         snack("success", "The user status has been successfully changed");
-        return user;
       } catch (error) {
         if (typeof error === "string") return requestStatus(false, error, null);
       }

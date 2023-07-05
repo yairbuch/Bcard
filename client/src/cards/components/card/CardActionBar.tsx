@@ -10,6 +10,8 @@ import CardDeleteDialog from "./CardDeleteDialog";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../../routes/routesModel";
 import useCards from "../../hooks/useCards";
+import PinIcon from "@mui/icons-material/Pin";
+import { log } from "console";
 
 type CardActionBarProps = {
   cardId: string;
@@ -53,11 +55,16 @@ const CardActionBar = ({
     onDelete(cardId);
   };
 
-  // useEffect(() => {
-  //   return () => {
-  //     setLiked(isLiked);
-  //   };
-  // }, []);
+  const writeColor = (userID: string) => {
+    if (isLiked && !cardLikes.includes(userID)) {
+      return "error";
+    }
+    if (!isLiked && cardLikes.includes(userID)) {
+      return "error";
+    }
+    return "default";
+  };
+
   return (
     <>
       <CardActions
@@ -82,6 +89,15 @@ const CardActionBar = ({
               <EditIcon />
             </IconButton>
           )}
+
+          {user && user.isAdmin && (
+            <IconButton
+              aria-label="biz number"
+              onClick={() => navigate(`${ROUTES.CHANGE_BIZ_NUMBER}/${cardId}`)}
+            >
+              <PinIcon />
+            </IconButton>
+          )}
         </Box>
 
         <Box>
@@ -95,9 +111,7 @@ const CardActionBar = ({
             <IconButton
               aria-label="add to fav"
               onClick={handleLike}
-              color={
-                cardLikes.includes(user._id) || isLiked ? "error" : "default"
-              }
+              color={writeColor(user._id)}
             >
               <FavoriteIcon />
             </IconButton>
