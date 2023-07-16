@@ -2,7 +2,7 @@ import React from "react";
 import Container from "@mui/material/Container";
 import PageHeader from "./../components/PageHeader";
 import Grid from "@mui/material/Grid";
-import { Divider } from "@mui/material";
+
 
 const AboutPage = () => {
   return (

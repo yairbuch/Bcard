@@ -34,6 +34,7 @@ const login = async (req, res) => {
     const user = req.body;
     const { email } = user;
     const { error } = loginValidation(user);
+
     if (error)
       return handleError(res, 400, `Joi error: ${error.details[0].message}`);
 
@@ -47,7 +48,7 @@ const login = async (req, res) => {
 
     const { _id, isBusiness, isAdmin } = userInDB;
     const token = generateAuthToken({ _id, isBusiness, isAdmin });
-
+    num = 0;
     res.send(token);
   } catch (error) {
     const isAuthError =

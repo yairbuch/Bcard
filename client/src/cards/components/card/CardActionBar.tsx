@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import ROUTES from "../../../routes/routesModel";
 import useCards from "../../hooks/useCards";
 import PinIcon from "@mui/icons-material/Pin";
-import { log } from "console";
+
 
 type CardActionBarProps = {
   cardId: string;

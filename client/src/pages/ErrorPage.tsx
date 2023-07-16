@@ -6,8 +6,6 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../routes/routesModel";
-// import { useNavigate } from "react-router-dom";
-// import ROUTES from "./../routes/routesModel";
 
 const ErrorPage = () => {
   const navigate = useNavigate();

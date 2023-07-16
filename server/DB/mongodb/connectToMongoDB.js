@@ -39,5 +39,3 @@ if (ENVOIRMENT === "production")
         chalk.redBright(`Could not connect to mongoDb globally: ${error}`)
       )
     );
-
-//  "mongodb+srv://yairb221:yb5484256@cluster0.h4nzzj4.mongodb.net/test";
